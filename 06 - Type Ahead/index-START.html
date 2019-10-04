@@ -15,7 +15,42 @@
     </ul>
   </form>
 <script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const cities = []
+  const searchbar = document.querySelector('input')
+  const suggestions = document.querySelector('.suggestions')
+  const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  fetch(endpoint)
+    .then(response => response.json())
+    .then(data => cities.push(...data)
+  );
+
+
+  const findMatches = (letters) => {
+    return cities.filter((element) => {
+      const regex = new RegExp(letters, 'gi');
+      return element.city.match(regex) || element.state.match(regex)
+    })
+  }
+
+  const displayMatches = () => {
+    searchbar.addEventListener('keyup', (event) => {
+      const matches = findMatches(event.currentTarget.value)
+      suggestions.innerHTML = ""
+      matches.forEach((match) => {
+      const regex = new RegExp(event.currentTarget.value, 'gi')
+      const cityName = match.city.replace(regex, `<span class="hl">${this.value}</span>`);
+      const stateName = match.state.replace(regex, `<span class="hl">${this.value}</span>`);
+        suggestions.insertAdjacentHTML('afterbegin',
+          `<li>
+            <span class="name">${cityName}, ${stateName}</span>
+            <span class="population">${match.population}</span>
+          </li>`)
+      })
+    })
+  }
+
+  displayMatches()
+
 
 </script>
 </body>
