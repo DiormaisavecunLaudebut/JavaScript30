@@ -62,12 +62,35 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%;
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
     }
 
   </style>
 
   <script>
+  const seconds = document.querySelector('.second-hand')
+  const minutes = document.querySelector('.min-hand')
+  const hours = document.querySelector('.hour-hand')
 
+  const clock = ()  => {
+    const date = new Date
+
+    const secondsDegree = 360 / 60 * date.getSeconds() + 90
+    seconds.style.transform = `rotate(${secondsDegree}deg)`;
+
+    const minutesDegree = 360 / 60 * date.getMinutes() + 90
+    minutes.style.transform =  `rotate(${minutesDegree}deg)`;
+
+    const hoursDegree = 360 / 12 * date.getHours() + 90
+    hours.style.transform =  `rotate(${hoursDegree}deg)`;
+
+  }
+
+  setInterval(clock, 1000)
+
+  clock()
 
   </script>
 </body>
