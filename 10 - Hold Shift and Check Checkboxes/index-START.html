@@ -96,6 +96,39 @@
   </div>
 
 <script>
+  const checkboxes = Array.from(document.querySelectorAll('input'))
+  const order = []
+
+  const fillOrder = () => {
+    checkboxes.forEach((box) => {
+      box.addEventListener('click', event => {
+        if (order.includes(event.currentTarget)) {
+          const i = order.findIndex(e => e == event.currentTarget)
+          order.splice(i, 1)
+        } else {
+          order.push(event.currentTarget)
+        }
+      })
+    })
+  }
+
+  function handleCheck(e) {
+    let oldBox = order[order.length - 1]
+    let oldIndex = checkboxes.findIndex(i => i == oldBox)
+    if (e.shiftKey && this.checked) {
+      let newIndex = checkboxes.findIndex(i => i == this)
+      checkboxes.slice(oldIndex, newIndex).forEach((i) => {
+        if (!i.checked) {
+          i.click()
+        }
+      })
+    }
+  }
+
+  checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck))
+
+
+  fillOrder()
 </script>
 </body>
 </html>
