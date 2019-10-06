@@ -7,6 +7,17 @@
 </head>
 <body>
 <script>
+
+  const pressed = []
+  const secredCode = "wesbos"
+
+  window.addEventListener('keyup', e => {
+    pressed.push(e.key)
+    if (pressed.length > secredCode.length) {pressed.shift()}
+    if (pressed.join('') == secredCode) {
+      window.alert('bravo')
+    }
+  })
 </script>
 </body>
 </html>
