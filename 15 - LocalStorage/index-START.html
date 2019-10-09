@@ -26,31 +26,46 @@
   </div>
 
 <script>
-  const addItems = document.querySelector('.add-items');
-  const submit = document.querySelector('input[type=submit]')
-  const userInput = document.querySelector('input[type=text]')
-  const itemsList = document.querySelector('.plates');
-  const items = [];
-  let number = 0
-
-  const generateHTML = (text) => {
-    const input = `<input type="checkbox" data-index="${number}" id="item${number}"></input>`
-    const label = `<label for="item${number}">${text}</label>`
-    number++
-    return `<li>${input + label}</li>`
-  }
+  const form = document.querySelector('form')
+  const userInput = document.querySelector('input[name="item"]')
+  const plates = document.querySelector('.plates')
+  const items = JSON.parse(localStorage.getItem('items')) || []
+  let i = 0
 
   function addItem(e) {
-    e.preventDefault();
-    const text = userInput.value;
-    const item = {text, done: false};
-    items.push(item);
-    this.reset();
-    itemsList.insertAdjacentHTML('beforeend', generateHTML(text));
+    e.preventDefault()
+    const text = userInput.value
+    const item = {text, checked: false}
+    items.push(item)
+    fillTapasList()
+    form.reset()
+    localStorage.setItem('items', JSON.stringify(items))
   }
 
-  addItems.addEventListener('submit', addItem)
+  const fillTapasList = () => {
+    plates.innerHTML = ""
+    items.forEach(item => {
+      const itemHTML = `
+      <li>
+        <input type="checkbox" data-index="${i}" id="item${i}" ${item.checked ? "checked" : ""}>
+        <label for="item${i}">${item.text}</label>
+      </li>`
+      plates.insertAdjacentHTML('beforeend', itemHTML)
+      i++
+    })
+  }
 
+  function checkItem(e) {
+    if (!e.target.matches('input')) return;
+    const index = e.target.dataset.index
+    items[index].checked = !items[index].checked
+    localStorage.setItem('items', JSON.stringify(items))
+  }
+
+
+  form.addEventListener('submit', addItem)
+  plates.addEventListener('click', checkItem)
+  fillTapasList()
 </script>
 
 
