@@ -1,0 +1,18 @@
+.underline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -10px;
+}
+
+.line-under {
+  width: 100%;
+  background-color: #ffbc00;
+  height: 2px;
+}
+
+.number-under {
+  font-weight: 900;
+  color: #ffbc00;
+  font-size: 20px;
+}
