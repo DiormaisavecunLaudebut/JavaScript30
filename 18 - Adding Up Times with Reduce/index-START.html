@@ -182,6 +182,19 @@
     </li>
   </ul>
 <script>
+  let minutes = 0
+  let seconds = 0
+
+  const videos = document.querySelectorAll('.videos li')
+  videos.forEach(video => {
+    minutes += parseInt(video.dataset['time'].split(':')[0], 10)
+    seconds += parseInt(video.dataset['time'].split(':')[1], 10)
+  })
+
+  let date = new Date(null);
+  date.setSeconds(minutes * 60 + seconds)
+  console.log(date.toISOString().substr(11, 8))
+
 </script>
 </body>
 </html>
